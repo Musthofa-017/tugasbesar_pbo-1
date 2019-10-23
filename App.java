@@ -5,6 +5,8 @@
  */
 package vending_machine;
 
+import java.awt.CardLayout;
+
 /**
  *
  * @author afar0308
@@ -35,7 +37,7 @@ public class App extends javax.swing.JFrame {
         bKeluar = new javax.swing.JButton();
         bOk = new javax.swing.JButton();
         snack_icon = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        login = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         mMenubar = new javax.swing.JMenuBar();
         mMenu = new javax.swing.JMenu();
@@ -62,6 +64,11 @@ public class App extends javax.swing.JFrame {
         });
 
         bOk.setText("Ok");
+        bOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bOkActionPerformed(evt);
+            }
+        });
 
         snack_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         snack_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vending_machine/snack.jpg"))); // NOI18N
@@ -99,34 +106,37 @@ public class App extends javax.swing.JFrame {
                     .addComponent(daftarMesin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bKeluar)
-                    .addComponent(bOk)
-                    .addComponent(snack_icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(snack_icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(main_menuLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bOk)
+                            .addComponent(bKeluar))))
                 .addGap(56, 56, 56))
         );
 
         AppPanel.add(main_menu, "card2");
 
-        jLabel2.setText("SIMULASI 2");
+        jLabel2.setText("LOGIN ADMIN");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(170, 170, 170)
+        javax.swing.GroupLayout loginLayout = new javax.swing.GroupLayout(login);
+        login.setLayout(loginLayout);
+        loginLayout.setHorizontalGroup(
+            loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginLayout.createSequentialGroup()
+                .addGap(192, 192, 192)
                 .addComponent(jLabel2)
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        loginLayout.setVerticalGroup(
+            loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addContainerGap(252, Short.MAX_VALUE))
         );
 
-        AppPanel.add(jPanel3, "card3");
+        AppPanel.add(login, "card3");
 
         mMenu.setText("Menu");
 
@@ -166,6 +176,10 @@ public class App extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void ubahJudul(String s) {
+        super.setTitle(s);
+    }
+    
     private void bKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKeluarActionPerformed
         // TODO add your handling code here:
         System.exit(0);
@@ -178,42 +192,20 @@ public class App extends javax.swing.JFrame {
 
     private void mLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mLoginActionPerformed
         // TODO add your handling code here:
+        CardLayout cl = (CardLayout)AppPanel.getLayout();
+        cl.show(AppPanel, "card3");
+        ubahJudul("Login Admin");
     }//GEN-LAST:event_mLoginActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void bOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOkActionPerformed
+        // TODO add your handling code here:
+        if (daftarMesin.getSelectedIndex() == 0) {
+            System.out.println("Anda memilih mesin makanan");
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new App().setVisible(true);
-            }
-        });
-    }
+        else if (daftarMesin.getSelectedIndex() == 1) {
+            System.out.println("Anda memilih mesin minuman");
+        }
+    }//GEN-LAST:event_bOkActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AppPanel;
@@ -221,9 +213,9 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton bOk;
     private javax.swing.JComboBox<String> daftarMesin;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lJudul;
     private javax.swing.JLabel lPilihan;
+    private javax.swing.JPanel login;
     private javax.swing.JMenuItem mKeluar;
     private javax.swing.JMenuItem mLogin;
     private javax.swing.JMenu mMenu;
