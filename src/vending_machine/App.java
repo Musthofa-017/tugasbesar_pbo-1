@@ -6,19 +6,47 @@
 package vending_machine;
 
 import java.awt.CardLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
 
 /**
  *
  * @author afar0308
  */
-public class App extends javax.swing.JFrame {
+public abstract class App extends javax.swing.JFrame {
 
-    /**
-     * Creates new form App
-     */
     public App() {
         initComponents();
+        initMainmenu();
+        ubahJudul("Simulasi Vending Machine");
+        setVisible(true);
+        setResizable(false);
+
+        cl = (CardLayout)AppPanel.getLayout();
     }
+    
+    private void initMainmenu() {
+        bKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bKeluarClicked(evt);
+            }
+        });
+        bOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bOkClicked(evt);
+            }
+        });
+    }
+    
+    public int getSelectedMesin() {
+        return daftarMesin.getSelectedIndex();
+    }
+    
+    public abstract void bKeluarClicked(ActionEvent evt);
+    public abstract void bOkClicked(ActionEvent evt);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,16 +65,21 @@ public class App extends javax.swing.JFrame {
         bKeluar = new javax.swing.JButton();
         bOk = new javax.swing.JButton();
         snack_icon = new javax.swing.JLabel();
-        login = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         mMenubar = new javax.swing.JMenuBar();
         mMenu = new javax.swing.JMenu();
+        mMainmenu = new javax.swing.JMenuItem();
         mLogin = new javax.swing.JMenuItem();
         mKeluar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(640, 480));
+        setPreferredSize(new java.awt.Dimension(640, 480));
 
+        AppPanel.setMinimumSize(new java.awt.Dimension(640, 459));
+        AppPanel.setPreferredSize(new java.awt.Dimension(600, 400));
         AppPanel.setLayout(new java.awt.CardLayout());
+
+        main_menu.setPreferredSize(new java.awt.Dimension(600, 400));
 
         lJudul.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lJudul.setText("SIMULASI VENDING MACHINE");
@@ -54,24 +87,14 @@ public class App extends javax.swing.JFrame {
         lPilihan.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lPilihan.setText("Pilihan:");
 
-        daftarMesin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Makanan", "Minuman" }));
+        daftarMesin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mesin Makanan", "Mesin Minuman" }));
 
         bKeluar.setText("Keluar");
-        bKeluar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bKeluarActionPerformed(evt);
-            }
-        });
 
         bOk.setText("Ok");
-        bOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bOkActionPerformed(evt);
-            }
-        });
 
         snack_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        snack_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vending_machine/snack.jpg"))); // NOI18N
+        snack_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vending_machine/images/snack.jpg"))); // NOI18N
         snack_icon.setText("jLabel4");
         snack_icon.setPreferredSize(new java.awt.Dimension(64, 64));
 
@@ -79,66 +102,53 @@ public class App extends javax.swing.JFrame {
         main_menu.setLayout(main_menuLayout);
         main_menuLayout.setHorizontalGroup(
             main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, main_menuLayout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
+            .addGroup(main_menuLayout.createSequentialGroup()
+                .addContainerGap(122, Short.MAX_VALUE)
                 .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(main_menuLayout.createSequentialGroup()
-                        .addComponent(bKeluar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(snack_icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bOk))
                     .addGroup(main_menuLayout.createSequentialGroup()
                         .addComponent(lPilihan)
                         .addGap(43, 43, 43)
                         .addComponent(daftarMesin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lJudul))
-                .addGap(46, 46, 46))
+                    .addComponent(lJudul)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, main_menuLayout.createSequentialGroup()
+                        .addComponent(bKeluar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(snack_icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(98, 98, 98)
+                        .addComponent(bOk)))
+                .addGap(123, 123, 123))
         );
         main_menuLayout.setVerticalGroup(
             main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(main_menuLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(lJudul)
-                .addGap(38, 38, 38)
-                .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lPilihan)
-                    .addComponent(daftarMesin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(snack_icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(main_menuLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addComponent(lJudul)
+                        .addGap(60, 60, 60)
                         .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bOk)
-                            .addComponent(bKeluar))))
-                .addGap(56, 56, 56))
+                            .addComponent(lPilihan)
+                            .addComponent(daftarMesin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(60, 60, 60)
+                        .addGroup(main_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(snack_icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bKeluar)))
+                    .addComponent(bOk))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
 
         AppPanel.add(main_menu, "card2");
 
-        jLabel2.setText("LOGIN ADMIN");
-
-        javax.swing.GroupLayout loginLayout = new javax.swing.GroupLayout(login);
-        login.setLayout(loginLayout);
-        loginLayout.setHorizontalGroup(
-            loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loginLayout.createSequentialGroup()
-                .addGap(192, 192, 192)
-                .addComponent(jLabel2)
-                .addContainerGap(204, Short.MAX_VALUE))
-        );
-        loginLayout.setVerticalGroup(
-            loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loginLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(252, Short.MAX_VALUE))
-        );
-
-        AppPanel.add(login, "card3");
-
         mMenu.setText("Menu");
+
+        mMainmenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        mMainmenu.setText("Main Menu");
+        mMainmenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mMainmenuActionPerformed(evt);
+            }
+        });
+        mMenu.add(mMainmenu);
 
         mLogin.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         mLogin.setText("Login Admin");
@@ -180,11 +190,6 @@ public class App extends javax.swing.JFrame {
         super.setTitle(s);
     }
     
-    private void bKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKeluarActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_bKeluarActionPerformed
-
     private void mKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mKeluarActionPerformed
         // TODO add your handling code here:
         System.exit(0);
@@ -192,35 +197,47 @@ public class App extends javax.swing.JFrame {
 
     private void mLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mLoginActionPerformed
         // TODO add your handling code here:
-        CardLayout cl = (CardLayout)AppPanel.getLayout();
-        cl.show(AppPanel, "card3");
+        cl.show(AppPanel, "login_admin");
         ubahJudul("Login Admin");
+        ubahUkuran(600, 600);
     }//GEN-LAST:event_mLoginActionPerformed
 
-    private void bOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOkActionPerformed
+    private void mMainmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMainmenuActionPerformed
         // TODO add your handling code here:
-        if (daftarMesin.getSelectedIndex() == 0) {
-            System.out.println("Anda memilih mesin makanan");
-        }
-        else if (daftarMesin.getSelectedIndex() == 1) {
-            System.out.println("Anda memilih mesin minuman");
-        }
-    }//GEN-LAST:event_bOkActionPerformed
-
+        ubahPanel(AppPanel, "main_menu");
+        ubahJudul("Simulasi Vending Machine");
+        ubahUkuran(640, 480);
+    }//GEN-LAST:event_mMainmenuActionPerformed
+    
+    public Container getPanel() {
+        return AppPanel;
+    }
+    
+    public void ubahPanel(Container panel, String nama) {
+        cl.show(panel, nama);
+    }
+    
+    public void ubahUkuran(int width, int height) {
+        d = new Dimension(width, height);
+        setMinimumSize(d);
+        setSize(d);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AppPanel;
     private javax.swing.JButton bKeluar;
     private javax.swing.JButton bOk;
     private javax.swing.JComboBox<String> daftarMesin;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lJudul;
     private javax.swing.JLabel lPilihan;
-    private javax.swing.JPanel login;
     private javax.swing.JMenuItem mKeluar;
     private javax.swing.JMenuItem mLogin;
+    private javax.swing.JMenuItem mMainmenu;
     private javax.swing.JMenu mMenu;
     private javax.swing.JMenuBar mMenubar;
     private javax.swing.JPanel main_menu;
     private javax.swing.JLabel snack_icon;
     // End of variables declaration//GEN-END:variables
+    public CardLayout cl;
+    private Dimension d;
 }
